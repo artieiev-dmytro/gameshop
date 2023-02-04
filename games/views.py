@@ -20,5 +20,7 @@ def games(request, genre_id=None, developer_id=None, page=1):
     else:
         games = Game.objects.all()
 
-    context.update({"games": games})
+    paginator = Paginator(games, 2)
+    games_paginator = paginator.page(page)
+    context.update({"games": games_paginator})
     return render(request, "games/games.html", context)

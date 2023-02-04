@@ -107,15 +107,33 @@
 
             <nav aria-label="Page navigation example">
                 <ul class="pagination justify-content-center">
-                    <li class="page-item disabled">
-                        <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
-                    </li>
-                    <li class="page-item"><a class="page-link" href="#">1</a></li>
-                    <li class="page-item"><a class="page-link" href="#">2</a></li>
-                    <li class="page-item"><a class="page-link" href="#">3</a></li>
-                    <li class="page-item">
-                        <a class="page-link" href="#">Next</a>
-                    </li>
+                    {% if games.has_previous %}
+                        <li class="page-item">
+                        <a class="page-link" href="{% url 'games:page' games.previous_page_number %}" aria-label="Previous">
+                            <span aria-hidden="true">&laquo;</span>
+                        </a>
+                        </li>
+                    {% else %}
+                        <li class="page-item disabled">
+                            <a class="page-link">&laquo;</a>
+                        </li>
+                    {% endif %}
+        
+                    {% for page in games.paginator.page_range %}
+                        <li class="page-item {% if page == games.number %}active{% endif %}"><a class="page-link" href="{% url 'games:page' page %}">{{page}}</a></li>
+                    {% endfor %}
+        
+                    {% if games.has_next %}    
+                        <li class="page-item">
+                        <a class="page-link" href="{% url 'games:page' games.next_page_number %}" aria-label="Next">
+                            <span aria-hidden="true">&raquo;</span>
+                        </a>
+                        </li>
+                    {% else %}
+                        <li class="page-item disabled">
+                            <a class="page-link">&raquo;</a>
+                        </li>
+                    {% endif %}
                 </ul>
             </nav>
 
