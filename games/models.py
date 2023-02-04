@@ -24,7 +24,7 @@ class Game(models.Model):
     date = models.DateField()
     view = models.PositiveIntegerField(default=0)
     rating = models.IntegerField(default=0)
-    genge = models.ManyToManyField(Genre)
+    genre = models.ManyToManyField(Genre)
     developer = models.ForeignKey(Developer, on_delete=models.CASCADE)
 
     def __str__(self):
