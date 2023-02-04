@@ -8,7 +8,7 @@ def index(request):
     return render(request, "games/index.html")
 
 
-def games(request, genre_id=None, developer_id=None, page=1):
+def games(request, genre_id=None, developer_id=None):
     context = {
         "genre": Genre.objects.all(),
         "developers": Developer.objects.all(),
@@ -20,7 +20,7 @@ def games(request, genre_id=None, developer_id=None, page=1):
     else:
         games = Game.objects.all()
 
-    paginator = Paginator(games, 2)
-    games_paginator = paginator.page(page)
+    paginator = Paginator(games, 1)
+    games_paginator = paginator.page(request.GET.get("page", 1))
     context.update({"games": games_paginator})
     return render(request, "games/games.html", context)

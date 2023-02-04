@@ -109,7 +109,7 @@
                 <ul class="pagination justify-content-center">
                     {% if games.has_previous %}
                         <li class="page-item">
-                        <a class="page-link" href="{% url 'games:page' games.previous_page_number %}" aria-label="Previous">
+                        <a class="page-link" href="?page={{ games.previous_page_number }}" aria-label="Previous">
                             <span aria-hidden="true">&laquo;</span>
                         </a>
                         </li>
@@ -120,12 +120,12 @@
                     {% endif %}
         
                     {% for page in games.paginator.page_range %}
-                        <li class="page-item {% if page == games.number %}active{% endif %}"><a class="page-link" href="{% url 'games:page' page %}">{{page}}</a></li>
+                        <li class="page-item {% if page == games.number %}active{% endif %}"><a class="page-link" href="?page={{ page }}">{{page}}</a></li>
                     {% endfor %}
         
                     {% if games.has_next %}    
                         <li class="page-item">
-                        <a class="page-link" href="{% url 'games:page' games.next_page_number %}" aria-label="Next">
+                    <a class="page-link" href="?page={{ games.next_page_number }}" aria-label="Next">
                             <span aria-hidden="true">&raquo;</span>
                         </a>
                         </li>
