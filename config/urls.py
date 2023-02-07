@@ -8,7 +8,7 @@ from games.views import index
 urlpatterns = [
     path("", index, name="index"),
     path("admin/", admin.site.urls),
-    path("games/", include(("games.urls", "games"))),
+    path("games/", include("games.urls", namespace="games")),
 ]
 
 if settings.DEBUG:
