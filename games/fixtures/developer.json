@@ -1,0 +1,1 @@
+[{"model": "games.developer", "pk": 1, "fields": {"title": "Rockstar"}}, {"model": "games.developer", "pk": 2, "fields": {"title": "Capcom"}}, {"model": "games.developer", "pk": 3, "fields": {"title": "Nintendo"}}, {"model": "games.developer", "pk": 4, "fields": {"title": "CD Projekt RED"}}, {"model": "games.developer", "pk": 5, "fields": {"title": "Riot Games"}}]
