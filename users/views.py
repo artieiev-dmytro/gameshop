@@ -1,6 +1,8 @@
 from django.shortcuts import render, HttpResponseRedirect
 from django.urls import reverse
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
+from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 
 from .forms import UserLoginForm, UserRegisterForm, UserProfileForm
 
@@ -26,6 +28,7 @@ def register_view(request):
         form = UserRegisterForm(data=request.POST)
         if form.is_valid():
             form.save()
+            messages.success(request, "You have successfully registered!")
             return HttpResponseRedirect(reverse("users:login"))
     else:
         form = UserRegisterForm()
@@ -33,6 +36,7 @@ def register_view(request):
     return render(request, "users/register.html", context)
 
 
+@login_required()
 def profile_view(request):
     if request.method == "POST":
         form = UserProfileForm(
@@ -45,3 +49,8 @@ def profile_view(request):
         form = UserProfileForm(instance=request.user)
     context = {"form": form}
     return render(request, "users/profile.html", context)
+
+
+def logout_view(request):
+    logout(request)
+    return HttpResponseRedirect(reverse("games:games"))

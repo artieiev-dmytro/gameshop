@@ -35,30 +35,38 @@
                 <li class="nav-item">
                     <a class="nav-link" style="color: #FFFFFF;" href="{% url 'games:games' %}">Catalog <i class="fas fa-shopping-bag"></i> </a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" style="color: #FFFFFF;" href="users/login.html">Sign in <i class="fas fa-sign-in-alt"></i></a>
-                </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" style="color: #FFFFFF;" href="#" id="navbarDropdown" role="button"
-                       data-bs-toggle="dropdown" aria-expanded="false">Menu
-                        <i class="fas fa-user-circle"></i>
-                    </a>
-                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown" >
-                        <li>
-                            <a class="dropdown-item" href="users/profile.html">Profile</a>
-                        </li>
-                        <li><a class="dropdown-item" href="orders/orders.html">Orders</a></li>
-                        <li><a class="dropdown-item" href="admin/admin.html">Admin panel</a></li>
-                        <li>
-                            <hr class="dropdown-divider">
-                        </li>
-                        <li>
-                            <a class="dropdown-item" href="#">
-                                Sign out
-                            </a>
-                        </li>
-                    </ul>
-                </li>
+                {% if user.is_authenticated %}
+                    <li class="nav-item">
+                        <a class="nav-link" style="color: #FFFFFF;" href="#">Cart <i class="fas fa-shopping-cart"></i> </a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" style="color: #FFFFFF;" href="#" id="navbarDropdown" role="button"
+                        data-bs-toggle="dropdown" aria-expanded="false">{{ user.username }}
+                            <i class="fas fa-user-circle"></i>
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown" >
+                            <li>
+                                <a class="dropdown-item" href="{% url 'users:profile' %}">Profile</a>
+                            </li>
+                            <li><a class="dropdown-item" href="orders/orders.html">Orders</a></li>
+                            {% if user.superuser or user.is_staff %}
+                                <li><a class="dropdown-item" href="{% url 'admin:index' %}">Admin panel</a></li>
+                            {% endif %}
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="{% url 'users:logout' %}">
+                                    Sign out
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link" style="color: #FFFFFF;" href="{% url 'users:login' %}">Sign in <i class="fas fa-sign-in-alt"></i></a>
+                    </li>
+                {% endif %}
             </ul>
         </div>
     </div>
