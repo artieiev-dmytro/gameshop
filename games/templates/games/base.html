@@ -37,7 +37,7 @@
                 </li>
                 {% if user.is_authenticated %}
                     <li class="nav-item">
-                        <a class="nav-link" style="color: #FFFFFF;" href="#">Cart <i class="fas fa-shopping-cart"></i> </a>
+                        <a class="nav-link" style="color: #FFFFFF;" href="{% url 'orders:cart' %}">Cart <i class="fas fa-shopping-cart"></i> </a>
                     </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" style="color: #FFFFFF;" href="#" id="navbarDropdown" role="button"
@@ -71,6 +71,7 @@
         </div>
     </div>
 </nav>
+
 
 {% block content %} {% endblock %}
 

@@ -107,7 +107,8 @@
                             </div>
                             <div class="card-footer text-center">
                                 <button type="button" class="btn btn-outline-success">
-                                    Send to cart</button>
+                                    <a href="{% url 'orders:cart_add' game.id %}">Send to cart</a>
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -152,5 +153,6 @@
     </div>
 
 </div>
+
 <!-- /.container -->
 {% endblock %}

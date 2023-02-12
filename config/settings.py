@@ -18,6 +18,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "games",
     "users",
+    "orders",
 ]
 
 MIDDLEWARE = [
@@ -95,3 +96,5 @@ MEDIA_ROOT = BASE_DIR / "media"
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 AUTH_USER_MODEL = "users.User"
+
+CART_SESSION_ID = "cart"
