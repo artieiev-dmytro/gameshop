@@ -37,7 +37,12 @@
                 </li>
                 {% if user.is_authenticated %}
                     <li class="nav-item">
-                        <a class="nav-link" style="color: #FFFFFF;" href="{% url 'orders:cart' %}">Cart <i class="fas fa-shopping-cart"></i> </a>
+                        <a class="nav-link" style="color: #FFFFFF;" href="{% url 'orders:cart' %}">
+                            Cart <i class="fas fa-shopping-cart"></i> 
+                            {% if cart %}
+                            <span class="badge badge-secondary badge-pill">{{cart.all_quantity}}</span>
+                            {% endif %}
+                        </a>
                     </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" style="color: #FFFFFF;" href="#" id="navbarDropdown" role="button"

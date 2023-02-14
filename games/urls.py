@@ -1,12 +1,12 @@
 from django.urls import path
 
-from .views import games
+from .views import GamesListView
 
 app_name = "games"
 
 
 urlpatterns = [
-    path("", games, name="games"),
-    path("genre/<int:genre_id>", games, name="genre"),
-    path("developers/<int:developer_id>", games, name="developer"),
+    path("", GamesListView.as_view(), name="games"),
+    path("genre/<int:genre_id>", GamesListView.as_view(), name="genre"),
+    path("developers/<int:developer_id>", GamesListView.as_view(), name="developer"),
 ]

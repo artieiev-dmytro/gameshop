@@ -1,26 +1,37 @@
-from django.shortcuts import render
-from django.core.paginator import Paginator
+from django.views.generic.base import TemplateView
+from django.views.generic.list import ListView
 
 from .models import Game, Genre, Developer
+from orders.cart import Cart
 
 
-def index(request):
-    return render(request, "games/index.html")
+class IndexView(TemplateView):
+    template_name = "games/index.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["title"] = "GameShop"
+        return context
 
 
-def games(request, genre_id=None, developer_id=None):
-    context = {
-        "genre": Genre.objects.all(),
-        "developers": Developer.objects.all(),
-    }
-    if genre_id:
-        games = [game for game in Game.objects.all() if game.genre.filter(id=genre_id)]
-    elif developer_id:
-        games = Game.objects.filter(developer_id=developer_id)
-    else:
-        games = Game.objects.all()
+class GamesListView(ListView):
+    model = Game
+    template_name = "games/games.html"
+    paginate_by = 1
 
-    paginator = Paginator(games, 1)
-    games_paginator = paginator.page(request.GET.get("page", 1))
-    context.update({"games": games_paginator})
-    return render(request, "games/games.html", context)
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        genre_id = self.kwargs.get("genre_id")
+        developer_id = self.kwargs.get("developer_id")
+        if genre_id:
+            return [game for game in queryset.all() if game.genre.filter(id=genre_id)]
+        elif developer_id:
+            return queryset.filter(developer_id=developer_id)
+        return queryset
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["genre"] = Genre.objects.all()
+        context["developers"] = Developer.objects.all()
+        context["cart"] = Cart(self.request)
+        return context

@@ -85,7 +85,7 @@
 
         <div class="col-lg-10">
             <div class="row">
-                {% for game in games %}
+                {% for game in page_obj %}
                     <div class="col-lg-3 col-md-6 mb-4">
                         <div class="card h-80">
                             <a href="#">
@@ -106,9 +106,11 @@
                                 <p class="h6 text-center">{{ game.price }}$</p>
                             </div>
                             <div class="card-footer text-center">
+                                <a href="{% url 'orders:cart_add' game.id %}">
                                 <button type="button" class="btn btn-outline-success">
-                                    <a href="{% url 'orders:cart_add' game.id %}">Send to cart</a>
+                                   Send to cart
                                 </button>
+                                </a>
                             </div>
                         </div>
                     </div>
@@ -118,9 +120,9 @@
 
             <nav aria-label="Page navigation example">
                 <ul class="pagination justify-content-center">
-                    {% if games.has_previous %}
+                    {% if page_obj.has_previous %}
                         <li class="page-item">
-                        <a class="page-link" href="?page={{ games.previous_page_number }}" aria-label="Previous">
+                        <a class="page-link" href="?page={{ page_obj.previous_page_number }}" aria-label="Previous">
                             <span aria-hidden="true">&laquo;</span>
                         </a>
                         </li>
@@ -130,13 +132,13 @@
                         </li>
                     {% endif %}
         
-                    {% for page in games.paginator.page_range %}
-                        <li class="page-item {% if page == games.number %}active{% endif %}"><a class="page-link" href="?page={{ page }}">{{page}}</a></li>
+                    {% for page in page_obj.paginator.page_range %}
+                        <li class="page-item {% if page == page_obj.number %}active{% endif %}"><a class="page-link" href="?page={{ page }}">{{page}}</a></li>
                     {% endfor %}
         
-                    {% if games.has_next %}    
+                    {% if page_obj.has_next %}    
                         <li class="page-item">
-                    <a class="page-link" href="?page={{ games.next_page_number }}" aria-label="Next">
+                    <a class="page-link" href="?page={{ page_obj.next_page_number }}" aria-label="Next">
                             <span aria-hidden="true">&raquo;</span>
                         </a>
                         </li>
