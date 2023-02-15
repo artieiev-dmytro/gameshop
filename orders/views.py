@@ -1,15 +1,17 @@
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import redirect, get_object_or_404
+from django.views.generic.base import TemplateView
 
 from .cart import Cart
 from games.models import Game
 
 
-def cart(request):
-    cart = Cart(request)
-    context = {
-        "cart": cart,
-    }
-    return render(request, "orders/cart.html", context)
+class CartView(TemplateView):
+    template_name = "orders/cart.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["cart"] = Cart(self.request)
+        return context
 
 
 def cart_add(request, game_id, update=False):

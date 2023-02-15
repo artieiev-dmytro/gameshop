@@ -1,56 +1,33 @@
-from django.shortcuts import render, HttpResponseRedirect
-from django.urls import reverse
-from django.contrib.auth import authenticate, login, logout
-from django.contrib import messages
-from django.contrib.auth.decorators import login_required
+from django.urls import reverse_lazy
+from django.contrib.messages.views import SuccessMessageMixin
+from django.views.generic.edit import UpdateView, CreateView
+from django.contrib.auth.views import LoginView, LogoutView
 
 from .forms import UserLoginForm, UserRegisterForm, UserProfileForm
+from .models import User
 
 
-def login_view(request):
-    if request.method == "POST":
-        form = UserLoginForm(data=request.POST)
-        if form.is_valid():
-            username = request.POST["username"]
-            password = request.POST["password"]
-            user = authenticate(username=username, password=password)
-            if user:
-                login(request, user)
-                return HttpResponseRedirect(reverse("games:games"))
-    else:
-        form = UserLoginForm()
-    context = {"form": form}
-    return render(request, "users/login.html", context)
+class UserLoginView(LoginView):
+    template_name = "users/login.html"
+    form_class = UserLoginForm
 
 
-def register_view(request):
-    if request.method == "POST":
-        form = UserRegisterForm(data=request.POST)
-        if form.is_valid():
-            form.save()
-            messages.success(request, "You have successfully registered!")
-            return HttpResponseRedirect(reverse("users:login"))
-    else:
-        form = UserRegisterForm()
-    context = {"form": form}
-    return render(request, "users/register.html", context)
+class UserRegistrationView(SuccessMessageMixin, CreateView):
+    model = User
+    template_name = "users/register.html"
+    form_class = UserRegisterForm
+    success_url = reverse_lazy("users:login")
+    success_message = "You have successfully registered"
 
 
-@login_required()
-def profile_view(request):
-    if request.method == "POST":
-        form = UserProfileForm(
-            data=request.POST, instance=request.user, files=request.FILES
-        )
-        if form.is_valid():
-            form.save()
-            return HttpResponseRedirect(reverse("users:profile"))
-    else:
-        form = UserProfileForm(instance=request.user)
-    context = {"form": form}
-    return render(request, "users/profile.html", context)
+class UserProfileView(UpdateView):
+    model = User
+    template_name = "users/profile.html"
+    form_class = UserProfileForm
+
+    def get_success_url(self):
+        return reverse_lazy("users:profile", args=(self.object.id,))
 
 
-def logout_view(request):
-    logout(request)
-    return HttpResponseRedirect(reverse("games:games"))
+class UserLogoutView(LogoutView):
+    success_url = reverse_lazy("games:games")
