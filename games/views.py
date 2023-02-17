@@ -1,8 +1,7 @@
 from django.views.generic.base import TemplateView
 from django.views.generic.list import ListView
 
-from .models import Game, Genre, Developer
-from orders.cart import Cart
+from .models import Developer, Game, Genre
 
 
 class IndexView(TemplateView):
@@ -33,5 +32,4 @@ class GamesListView(ListView):
         context = super().get_context_data(**kwargs)
         context["genre"] = Genre.objects.all()
         context["developers"] = Developer.objects.all()
-        context["cart"] = Cart(self.request)
         return context

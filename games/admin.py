@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Game, Genre, Developer
+from .models import Developer, Game, Genre
 
 
 @admin.register(Game)
