@@ -9,6 +9,8 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+DOMAIN_NAME = "http://localhost:8000"
+
 INSTALLED_APPS = [
     "django.contrib.admin",
     "django.contrib.auth",
@@ -99,7 +101,15 @@ AUTH_USER_MODEL = "users.User"
 
 CART_SESSION_ID = "cart"
 
-EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 
 LOGIN_REDIRECT_URL = "games:games"
 LOGOUT_REDIRECT_URL = "games:games"
+
+# Gmail
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_HOST = "smtp.gmail.com"
+EMAIL_HOST_USER = "gameshopdjango@gmail.com"
+EMAIL_HOST_PASSWORD = "dumzhhmehakegydv"
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_USE_SSL = False

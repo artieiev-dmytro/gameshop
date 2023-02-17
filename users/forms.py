@@ -1,3 +1,6 @@
+from datetime import timedelta
+from django.utils.timezone import now
+import uuid
 from django import forms
 from django.contrib.auth.forms import (
     AuthenticationForm,
@@ -5,7 +8,7 @@ from django.contrib.auth.forms import (
     UserChangeForm,
 )
 
-from .models import User
+from .models import User, EmailVerification
 
 
 class UserLoginForm(AuthenticationForm):
@@ -61,6 +64,15 @@ class UserRegisterForm(UserCreationForm):
         super(UserRegisterForm, self).__init__(*args, **kwargs)
         for field_name, field in self.fields.items():
             field.widget.attrs["class"] = "form-control py4"
+
+    def save(self, commit=True):
+        user = super().save(commit)
+        expiration = now() + timedelta(hours=1)
+        record = EmailVerification.objects.create(
+            code=uuid.uuid4(), user=user, expiration=expiration
+        )
+        record.send_verification_email()
+        return user
 
 
 class UserProfileForm(UserChangeForm):

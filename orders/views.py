@@ -1,4 +1,5 @@
-from django.shortcuts import redirect, get_object_or_404
+from django.shortcuts import redirect, get_object_or_404, HttpResponseRedirect
+
 from django.views.generic.base import TemplateView
 
 from .cart import Cart
@@ -18,7 +19,7 @@ def cart_add(request, game_id, update=False):
     cart = Cart(request)
     game = get_object_or_404(Game, id=game_id)
     cart.add(game=game)
-    return redirect("orders:cart")
+    return HttpResponseRedirect(request.META.get("HTTP_REFERER"))
 
 
 def cart_del(request, game_id):
