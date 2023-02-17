@@ -17,6 +17,11 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "django.contrib.sites",
+    "allauth",
+    "allauth.account",
+    "allauth.socialaccount",
+    "allauth.socialaccount.providers.github",
     "games",
     "users",
     "orders",
@@ -118,3 +123,20 @@ EMAIL_HOST_PASSWORD = "dumzhhmehakegydv"
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_USE_SSL = False
+
+AUTHENTICATION_BACKENDS = [
+    "django.contrib.auth.backends.ModelBackend",
+    "allauth.account.auth_backends.AuthenticationBackend",
+]
+
+SITE_ID = 1
+
+SOCIALACCOUNT_PROVIDERS = {
+    "github": {
+        "SCOPE": [
+            "user",
+            "repo",
+            "read:org",
+        ],
+    }
+}
