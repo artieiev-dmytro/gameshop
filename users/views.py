@@ -30,4 +30,4 @@ class UserProfileView(UpdateView):
 
 
 class UserLogoutView(LogoutView):
-    success_url = reverse_lazy("games:games")
+    pass
