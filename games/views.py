@@ -1,5 +1,7 @@
 from django.views.generic.base import TemplateView
 from django.views.generic.list import ListView
+from django.core.cache import cache
+
 
 from .models import Developer, Game, Genre
 
@@ -30,6 +32,17 @@ class GamesListView(ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["genre"] = Genre.objects.all()
-        context["developers"] = Developer.objects.all()
+        genre = cache.get("genre")
+        developers = cache.get("developers")
+        if not genre:
+            context["genre"] = Genre.objects.all()
+            cache.set("genre", context["genre"], 60)
+        else:
+            context["genre"] = genre
+
+        if not developers:
+            context["developers"] = Developer.objects.all()
+            cache.set("developers", context["developers"], 60)
+        else:
+            context["developers"] = developers
         return context

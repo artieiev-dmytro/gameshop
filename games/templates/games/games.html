@@ -1,159 +1,215 @@
-{% extends 'games/base.html' %}
+{% extends 'games/base.html' %} 
 {% load static %}
-
-{% block title %} Catalog {% endblock %}
-
-
+{% load cache %}
+{% block title %} Catalog {% endblock %} 
 {% block css %}
-    <link href="{% static 'vendor/css/products.css' %}" rel="stylesheet">
-{% endblock %}
+<link href="{% static 'vendor/css/products.css' %}" rel="stylesheet" />
+{% endblock %} 
 
 {% block content %}
 
 <!-- Page Content -->
 <div class="container">
-
-    <div class="row justify-content-center">
-        <div class="col-lg-9 my-3">
-            <div id="carouselExampleIndicators" class="carousel slide my-4" data-ride="carousel">
-                <ol class="carousel-indicators">
-                    <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
-                    <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
-                    <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
-                </ol>
-                <div class="carousel-inner" role="listbox">
-                    <div class="carousel-item active">
-                        <img class="d-block img-fluid" src="{% static 'vendor/img/slides/slide-11.jpg' %}" alt="First slide">
-                    </div>
-                    <div class="carousel-item">
-                        <img class="d-block img-fluid" src="{% static 'vendor/img/slides/slide-22.jpg' %}" alt="Second slide">
-                    </div>
-                    <div class="carousel-item">
-                        <img class="d-block img-fluid" src="{% static 'vendor/img/slides/slide-33.jpg' %}" alt="Third slide">
-                    </div>
-                </div>
-                <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
-                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                    <span class="sr-only">Previous</span>
-                </a>
-                <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
-                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                    <span class="sr-only">Next</span>
-                </a>
-            </div> 
+  <div class="row justify-content-center">
+    <div class="col-lg-9 my-3">
+      <div
+        id="carouselExampleIndicators"
+        class="carousel slide my-4"
+        data-ride="carousel"
+      >
+        <ol class="carousel-indicators">
+          <li
+            data-target="#carouselExampleIndicators"
+            data-slide-to="0"
+            class="active"
+          ></li>
+          <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+          <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+        </ol>
+        <div class="carousel-inner" role="listbox">
+          <div class="carousel-item active">
+            <img
+              class="d-block img-fluid"
+              src="{% static 'vendor/img/slides/slide-11.jpg' %}"
+              alt="First slide"
+            />
+          </div>
+          <div class="carousel-item">
+            <img
+              class="d-block img-fluid"
+              src="{% static 'vendor/img/slides/slide-22.jpg' %}"
+              alt="Second slide"
+            />
+          </div>
+          <div class="carousel-item">
+            <img
+              class="d-block img-fluid"
+              src="{% static 'vendor/img/slides/slide-33.jpg' %}"
+              alt="Third slide"
+            />
+          </div>
         </div>
+        <a
+          class="carousel-control-prev"
+          href="#carouselExampleIndicators"
+          role="button"
+          data-slide="prev"
+        >
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="sr-only">Previous</span>
+        </a>
+        <a
+          class="carousel-control-next"
+          href="#carouselExampleIndicators"
+          role="button"
+          data-slide="next"
+        >
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="sr-only">Next</span>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div class="row justify-content-center">
+    <div class="col-lg-6 my-4">
+      <form class="d-flex" role="search">
+        <input
+          class="form-control me-2"
+          type="search"
+          placeholder="Search"
+          aria-label="Search"
+        />
+        <button class="btn btn-primary" type="submit">Search</button>
+      </form>
+    </div>
+  </div>
+  <div class="row row justify-content-end">
+    <div class="col-lg-3">
+      <select class="form-select" aria-label="Default select example">
+        <option selected>by date</option>
+        <option value="1">by pricе</option>
+        <option value="2">alphabetically</option>
+        <option value="3">by popularity</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-lg-2">
+      <div class="list-group">
+        <h5
+          class="list-group-item"
+          style="background-color: #43f138; color: #ffffff"
+        >
+          Genres
+        </h5>
+        {% for gr in genre %}
+        <a href="{% url 'games:genre' gr.id %}" class="list-group-item"
+          >{{ gr.name }}</a
+        >
+        {% endfor %}
+      </div>
+      <br />
+      <div class="list-group">
+        <h5
+          class="list-group-item"
+          style="background-color: #43f138; color: #ffffff"
+        >
+          Developers
+        </h5>
+        {% for developer in developers %}
+        <a
+          href="{% url 'games:developer' developer.id %}"
+          class="list-group-item"
+          >{{ developer.title }}</a
+        >
+        {% endfor %}
+      </div>
+      <br />
     </div>
 
-    <div class="row justify-content-center">
-        <div class="col-lg-6 my-4">
-                <form class="d-flex" role="search">
-                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                    <button class="btn btn-primary" type="submit">Search</button>
-                </form>
-        </div>
-    </div>
-		<div class="row row justify-content-end">
-			<div class="col-lg-3">
-				<select class="form-select" aria-label="Default select example">
-					<option selected>by date</option>
-					<option value="1">by pricе</option>
-					<option value="2">alphabetically</option>
-					<option value="3">by popularity</option>
-				</select>
-			</div>
-		</div>
+    <!-- /.col-lg-3 -->
 
-    <div class="row">
-        <div class="col-lg-2">
-            <div class="list-group">
-                <h5 class="list-group-item" style="background-color: #43f138; color: #FFFFFF;">Genres</h5>
-                {% for gr in genre %}
-                <a href="{% url 'games:genre' gr.id %}" class="list-group-item">{{ gr.name }}</a>
-                {% endfor %}
+    <div class="col-lg-10">
+      <div class="row">
+        {% cache 30 page_obj %}
+        {% for game in page_obj %}
+        <div class="col-lg-3 col-md-6 mb-4">
+          <div class="card h-80">
+            <a href="#">
+              <img
+                class="card-img-top my-img"
+                src="{{ game.img.url }}"
+                alt=""
+                height="200"
+                width="50"
+              />
+            </a>
+            <div class="card-body justify-content-center">
+              <h5 class="card-title text-center">
+                <a href="#">{{ game.name }}</a>
+              </h5>
+              {% for g in game.genre.all %}
+              <p class="h6">{{ g }}</p>
+              {% endfor %}
+              <p class="h6 text-center">{{ game.price }}$</p>
             </div>
-            <br>
-            <div class="list-group">
-                <h5 class="list-group-item" style="background-color: #43f138; color: #FFFFFF;">Developers</h5>
-                {% for developer in developers %}
-                <a href="{% url 'games:developer' developer.id %}" class="list-group-item">{{ developer.title }}</a>
-                {% endfor %}
+            <div class="card-footer text-center">
+              <a href="{% url 'orders:cart_add' game.id %}">
+                <button type="button" class="btn btn-outline-success">
+                  Send to cart
+                </button>
+              </a>
             </div>
-            <br>
+          </div>
         </div>
+        {% endfor %} 
+        {% endcache %}
+      </div>
+      >
 
-        <!-- /.col-lg-3 -->
-
-        <div class="col-lg-10">
-            <div class="row">
-                {% for game in page_obj %}
-                    <div class="col-lg-3 col-md-6 mb-4">
-                        <div class="card h-80">
-                            <a href="#">
-                                <img class="card-img-top my-img"
-                                    src="{{ game.img.url }}"
-                                    alt=""
-                                    height="200"
-                                    width="50">
-                                    
-                            </a>
-                            <div class="card-body justify-content-center">
-                                <h5 class="card-title text-center">
-                                    <a href="#">{{ game.name }}</a>
-                                </h5>
-                                {% for g in game.genre.all %}
-                                    <p class="h6">{{ g }}</p>
-                                {% endfor %}
-                                <p class="h6 text-center">{{ game.price }}$</p>
-                            </div>
-                            <div class="card-footer text-center">
-                                <a href="{% url 'orders:cart_add' game.id %}">
-                                <button type="button" class="btn btn-outline-success">
-                                   Send to cart
-                                </button>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                {% endfor %}
-
-            </div>>
-
-            <nav aria-label="Page navigation example">
-                <ul class="pagination justify-content-center">
-                    {% if page_obj.has_previous %}
-                        <li class="page-item">
-                        <a class="page-link" href="?page={{ page_obj.previous_page_number }}" aria-label="Previous">
-                            <span aria-hidden="true">&laquo;</span>
-                        </a>
-                        </li>
-                    {% else %}
-                        <li class="page-item disabled">
-                            <a class="page-link">&laquo;</a>
-                        </li>
-                    {% endif %}
-        
-                    {% for page in page_obj.paginator.page_range %}
-                        <li class="page-item {% if page == page_obj.number %}active{% endif %}"><a class="page-link" href="?page={{ page }}">{{page}}</a></li>
-                    {% endfor %}
-        
-                    {% if page_obj.has_next %}    
-                        <li class="page-item">
-                    <a class="page-link" href="?page={{ page_obj.next_page_number }}" aria-label="Next">
-                            <span aria-hidden="true">&raquo;</span>
-                        </a>
-                        </li>
-                    {% else %}
-                        <li class="page-item disabled">
-                            <a class="page-link">&raquo;</a>
-                        </li>
-                    {% endif %}
-                </ul>
-            </nav>
-
-        </div>
-
+      <nav aria-label="Page navigation example">
+        <ul class="pagination justify-content-center">
+          {% if page_obj.has_previous %}
+          <li class="page-item">
+            <a
+              class="page-link"
+              href="?page={{ page_obj.previous_page_number }}"
+              aria-label="Previous"
+            >
+              <span aria-hidden="true">&laquo;</span>
+            </a>
+          </li>
+          {% else %}
+          <li class="page-item disabled">
+            <a class="page-link">&laquo;</a>
+          </li>
+          {% endif %} {% for page in page_obj.paginator.page_range %}
+          <li
+            class="page-item {% if page == page_obj.number %}active{% endif %}"
+          >
+            <a class="page-link" href="?page={{ page }}">{{page}}</a>
+          </li>
+          {% endfor %} {% if page_obj.has_next %}
+          <li class="page-item">
+            <a
+              class="page-link"
+              href="?page={{ page_obj.next_page_number }}"
+              aria-label="Next"
+            >
+              <span aria-hidden="true">&raquo;</span>
+            </a>
+          </li>
+          {% else %}
+          <li class="page-item disabled">
+            <a class="page-link">&raquo;</a>
+          </li>
+          {% endif %}
+        </ul>
+      </nav>
     </div>
-
+  </div>
 </div>
 
 <!-- /.container -->
