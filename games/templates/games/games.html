@@ -133,7 +133,6 @@
 
     <div class="col-lg-10">
       <div class="row">
-        {% cache 30 page_obj %}
         {% for game in page_obj %}
         <div class="col-lg-3 col-md-6 mb-4">
           <div class="card h-80">
@@ -165,7 +164,6 @@
           </div>
         </div>
         {% endfor %} 
-        {% endcache %}
       </div>
       >
 
