@@ -5,7 +5,7 @@ from .models import Developer, Game, Genre
 
 @admin.register(Game)
 class AdminGame(admin.ModelAdmin):
-    list_display = ("name", "price", "view")
+    list_display = ("name", "price", "view", "stripe_game_price_id")
     search_fields = ("name",)
     ordering = ("name",)
 

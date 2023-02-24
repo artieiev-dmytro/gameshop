@@ -25,4 +25,9 @@ class Order(models.Model):
     initiator = models.ForeignKey(to=User, on_delete=models.CASCADE)
 
     def __str__(self):
-        return f"Orders №{self.id}. {self.firdt_name} {self.last_name}"
+        return f"Orders №{self.id}. {self.first_name} {self.last_name}"
+
+    def update_after_payment(self, cart_history):
+        self.STATUS = self.PAIN
+        self.cart_history = cart_history
+        self.save()

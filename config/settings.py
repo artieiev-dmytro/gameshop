@@ -12,7 +12,7 @@ INTERNAL_IPS = [
     "127.0.0.1",
 ]
 
-DOMAIN_NAME = "http://localhost:8000"
+DOMAIN_NAME = "http://127.0.0.1:8000"
 
 INSTALLED_APPS = [
     "django.contrib.admin",
@@ -154,5 +154,15 @@ SOCIALACCOUNT_PROVIDERS = {
 }
 
 # Celery
+
 CELERY_BROKER_URL = "redis://127.0.0.1:6379"
 CELERY_RESULT_BACKEND = "redis://127.0.0.1:6379"
+
+# Stripe
+
+STRIPE_PUBLIC_KEY = "pk_test_51Mdi3BEnMwlpFVdZ1ripm1Ewyrgte0tnIF8n9KszKK9OfnWEdD6FIERV7wlp7eOEjYuBuZVdQQ8qPARMYbeMUBiN004l53PKIF"
+STRIPE_SECRET_KEY = "sk_test_51Mdi3BEnMwlpFVdZxIHqTNaovSYJWhLvSaLzKHW2FmufLbtouIsWc3gvJ9Pi7WcpLdcV2IMx9aMVZKuMMmJ1JAPl00BC8fS82N"
+STRIPE_WEBHOOK_SECRET = (
+    "whsec_2bd0ccdc9bb436b80a0197a6f9cff9ab8d53f8a5aaa28d0ace7b474e824858e7"
+)
+APPEND_SLASH = False

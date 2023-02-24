@@ -1,4 +1,10 @@
+import stripe
+
 from django.db import models
+from django.conf import settings
+
+
+stripe.api_key = settings.STRIPE_SECRET_KEY
 
 
 class Genre(models.Model):
@@ -25,10 +31,26 @@ class Game(models.Model):
     view = models.PositiveIntegerField(default=0)
     rating = models.IntegerField(default=0)
     genre = models.ManyToManyField(Genre)
+    stripe_game_price_id = models.CharField(max_length=128, blank=True, null=True)
     developer = models.ForeignKey(Developer, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.name
+
+    def save(self, *args, **kwargs):
+        if not self.stripe_game_price_id:
+            stripe_game_price_id = self.create_stripe_game_price()
+            self.stripe_game_price_id = stripe_game_price_id["id"]
+        super().save(*args, **kwargs)
+
+    def create_stripe_game_price(self):
+        stripe_game = stripe.Product.create(name=self.name)
+        stripe_game_price = stripe.Price.create(
+            product=stripe_game["id"],
+            unit_amount=round(self.price * 100),
+            currency="usd",
+        )
+        return stripe_game_price
 
 
 class Comment(models.Model):

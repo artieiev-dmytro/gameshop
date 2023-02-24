@@ -1,0 +1,35 @@
+{% extends 'games/base.html' %}
+
+{% block content %}
+<!-- Page Content -->
+<section>
+    <div class="container">
+        <div class="text-center mt-5">
+            <h1>Order №{{object.id}}</h1>
+            <div class="orders mt-5">
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th scope="col"></th>
+                        <th scope="col">Кол-во</th>
+                        <th scope="col">Цена</th>
+                        <th scope="col">Сумма</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for purchased_item in object.cart_history.purchased_items %}
+                    <tr>
+                        <th scope="row">{{purchased_item.name}}</th>
+                        <td>{{purchased_item.quantity}}</td>
+                        <td>{{purchased_item.price}} $</td>
+                        <td>{{purchased_item.sum}} $</td>
+                    </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+                <p class="float-right h4 mt-3">{{ object.cart_history.total_sum }} $</p>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

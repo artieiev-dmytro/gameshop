@@ -57,7 +57,21 @@ class Cart:
 
     def clear(self):
         del self.session[settings.CART_SESSION_ID]
-        self.session.modified = True
 
     def all_quantity(self):
         return len(self)
+
+    def convert_json(self):
+        res = []
+        for game in self:
+            item = {
+                "name": game["game"].name,
+                "quantity": game["quantity"],
+                "price": float(game["price"]),
+                "sum": float(game["total_price"]),
+            }
+            res.append(item)
+        return res
+
+    def __str__(self):
+        return f"{self.all_quantity()}"

@@ -53,7 +53,7 @@
                             <li>
                                 <a class="dropdown-item" href="{% url 'users:profile' pk=user.id %}">Profile</a>
                             </li>
-                            <li><a class="dropdown-item" href="orders/orders.html">Orders</a></li>
+                            <li><a class="dropdown-item" href="{% url 'orders:orders' %}">Orders</a></li>
                             {% if user.superuser or user.is_staff %}
                                 <li><a class="dropdown-item" href="{% url 'admin:index' %}">Admin panel</a></li>
                             {% endif %}
