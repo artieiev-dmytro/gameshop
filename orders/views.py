@@ -124,6 +124,7 @@ class CartView(TemplateView):
 
 
 def cart_add(request, game_id, update=False):
+    print(game_id)
     cart = Cart(request)
     game = get_object_or_404(Game, id=game_id)
     cart.add(game=game)

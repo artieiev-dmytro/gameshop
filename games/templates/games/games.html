@@ -1,35 +1,31 @@
-{% extends 'games/base.html' %} 
-{% load static %}
-{% load cache %}
-{% block title %} Catalog {% endblock %} 
-{% block css %}
+{% extends 'games/base.html' %} {% load static %} {% load cache %} {% block
+title %} Catalog {% endblock %} {% block css %}
 <link href="{% static 'vendor/css/products.css' %}" rel="stylesheet" />
-{% endblock %} 
-
-{% block content %}
+{% endblock %} {% block content %}
 
 <!-- Page Content -->
 <div class="container">
   <div class="row justify-content-center">
     <div class="col-lg-5">
       {% if messages %}
-                            <div class="alert
-                            {% if messages %} alert-success {% else %} alert-warning {% endif %}
-                            alert-dismissible fade show" role="alert"
-                                style="margin-top: 20px;">
-                                {% if messages %}
-                                    {% for message in messages %}
-                                        {{ message }}
-                                    {% endfor %}
-                                {% else %}
-                                    {{ form.non_field_errors }}
-                                {% endif %}
+      <div
+        class="alert {% if messages %} alert-success {% else %} alert-warning {% endif %} alert-dismissible fade show"
+        role="alert"
+        style="margin-top: 20px"
+      >
+        {% if messages %} {% for message in messages %} {{ message }} {% endfor
+        %} {% else %} {{ form.non_field_errors }} {% endif %}
 
-                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                        {% endif %}
+        <button
+          type="button"
+          class="close"
+          data-dismiss="alert"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      {% endif %}
     </div>
     <div class="col-lg-9 my-3">
       <div
@@ -104,16 +100,6 @@
       </form>
     </div>
   </div>
-  <div class="row row justify-content-end">
-    <div class="col-lg-3">
-      <select class="form-select" aria-label="Default select example">
-        <option selected>by date</option>
-        <option value="1">by pricе</option>
-        <option value="2">alphabetically</option>
-        <option value="3">by popularity</option>
-      </select>
-    </div>
-  </div>
 
   <div class="row">
     <div class="col-lg-2">
@@ -125,7 +111,7 @@
           Genres
         </h5>
         {% for gr in genre %}
-        <a href="{% url 'games:genre' gr.id %}" class="list-group-item"
+        <a href="{% url 'games:genre' gr.slug %}" class="list-group-item"
           >{{ gr.name }}</a
         >
         {% endfor %}
@@ -140,7 +126,7 @@
         </h5>
         {% for developer in developers %}
         <a
-          href="{% url 'games:developer' developer.id %}"
+          href="{% url 'games:developer' developer.slug %}"
           class="list-group-item"
           >{{ developer.title }}</a
         >
@@ -167,11 +153,11 @@
             </a>
             <div class="card-body justify-content-center">
               <h5 class="card-title text-center">
-                <a href="#">{{ game.name }}</a>
+                <a href="{% url 'games:game_detail' game.slug %}"
+                  >{{ game.name }}</a
+                >
               </h5>
-              {% for g in game.genre.all %}
-              <p class="h6">{{ g }}</p>
-              {% endfor %}
+
               <p class="h6 text-center">{{ game.price }}$</p>
             </div>
             <div class="card-footer text-center">
@@ -183,7 +169,7 @@
             </div>
           </div>
         </div>
-        {% endfor %} 
+        {% endfor %}
       </div>
       >
 

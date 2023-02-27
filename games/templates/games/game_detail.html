@@ -1,0 +1,116 @@
+{% extends 'games/base.html' %} {% load static %} {% block title %} Catalog {%
+endblock %} {% block css %}
+<link href="{% static 'vendor/css/game.css' %}" rel="stylesheet" />
+<link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+/>
+{% endblock %} {% block content %}
+<div class="container my-4">
+  <div class="row my-4">
+    <div class="col-lg-2 my-4">
+      <div class="list-group">
+        <h5
+          class="list-group-item"
+          style="background-color: #43f138; color: #ffffff"
+        >
+          Genres
+        </h5>
+        {% for gr in genre %}
+        <a href="{% url 'games:genre' gr.slug %}" class="list-group-item"
+          >{{ gr.name }}</a
+        >
+        {% endfor %}
+      </div>
+      <br />
+      <div class="list-group">
+        <h5
+          class="list-group-item"
+          style="background-color: #43f138; color: #ffffff"
+        >
+          Developers
+        </h5>
+        {% for developer in developers %}
+        <a
+          href="{% url 'games:developer' developer.slug %}"
+          class="list-group-item"
+          >{{ developer.title }}</a
+        >
+        {% endfor %}
+      </div>
+    </div>
+
+    <div class="col-lg-10 my-4">
+      <div class="row my-4">
+        <div class="col-lg-3 col-md-6 mb-4">
+          <div class="card h-80">
+            <img
+              class="card-img-top my-img"
+              src="{{ object.img.url }}"
+              alt=""
+              height="250"
+              width="50"
+            />
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-6 mb-4">
+          <h4>{{object.name}}</h4>
+          <i class="fas fa-eye"> {{object.view}}</i>
+          <h6>Genres:</h6>
+          <ul>
+            {% for g in game.genre.all %}
+            <li><a href="{% url 'games:genre' g.slug %}">{{ g }}</a></li>
+            {% endfor %}
+          </ul>
+
+          <h6>Developer: {{object.developer}}</h6>
+          <h6>Data: {{object.date}}</h6>
+        </div>
+      </div>
+      <div class="col-lg-6 col-md-6 mb-4"></div>
+      <form action="{% url 'games:rating' object.id %}" method="post">
+        {% csrf_token %}
+        <h6>Rating: {{rating}}/5</h6>
+        <label>How do you rate this game</label>
+        <br />
+        <div class="rate">
+          <input type="radio" name="rating" id="rating5" value="5" required />
+          <label for="rating5" title="5"></label>
+          <input type="radio" name="rating" id="rating4" value="4" required />
+          <label for="rating4" title="4"></label>
+          <input type="radio" name="rating" id="rating3" value="3" required />
+          <label for="rating3" title="3"></label>
+          <input type="radio" name="rating" id="rating2" value="2" required />
+          <label for="rating2" title="2"></label>
+          <input type="radio" name="rating" id="rating1" value="1" required />
+          <label for="rating1" title="1"></label>
+        </div>
+        <br />
+        <input type="submit" class="btn btn-primary" />
+      </form>
+      <br />
+      <h5>Description</h5>
+      <p>{{object.description}}</p>
+      <div>
+        <div class="card-footer text-center">
+          <h4>Price {{object.price}} $</h4>
+          <a href="{% url 'orders:cart_add' object.id %}">
+            <button type="button" class="btn btn-outline-success">Bay</button>
+          </a>
+        </div>
+        <br />
+        {% include 'games/comments.html' with game_id=object.id %}
+        <hr />
+        <br />
+        {% for comment in comments %}
+        <div class="alert alert-secondary" role="alert">
+          <h6>@{{comment.user.username}}</h6>
+          <hr />
+          <p>{{comment.text}}</p>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
