@@ -1,5 +1,5 @@
-{% extends 'games/base.html' %} {% load static %} {% load cache %} {% block
-title %} Catalog {% endblock %} {% block css %}
+{% extends 'games/base.html' %} {% load static %} {% load cache %} 
+{% block title %} Catalog {% endblock %} {% block css %}
 <link href="{% static 'vendor/css/products.css' %}" rel="stylesheet" />
 {% endblock %} {% block content %}
 
@@ -13,8 +13,13 @@ title %} Catalog {% endblock %} {% block css %}
         role="alert"
         style="margin-top: 20px"
       >
-        {% if messages %} {% for message in messages %} {{ message }} {% endfor
-        %} {% else %} {{ form.non_field_errors }} {% endif %}
+        {% if messages %} 
+          {% for message in messages %} 
+            {{ message }} 
+          {% endfor%} 
+        {% else %} 
+          {{ form.non_field_errors }} 
+        {% endif %}
 
         <button
           type="button"
@@ -89,10 +94,11 @@ title %} Catalog {% endblock %} {% block css %}
 
   <div class="row justify-content-center">
     <div class="col-lg-6 my-4">
-      <form class="d-flex" role="search">
+      <form action="{% url 'games:search' %}" method="get" class="d-flex" role="search">
         <input
           class="form-control me-2"
           type="search"
+          name="q"
           placeholder="Search"
           aria-label="Search"
         />
@@ -179,7 +185,7 @@ title %} Catalog {% endblock %} {% block css %}
           <li class="page-item">
             <a
               class="page-link"
-              href="?page={{ page_obj.previous_page_number }}"
+              href="?{{q}}page={{ page_obj.previous_page_number }}"
               aria-label="Previous"
             >
               <span aria-hidden="true">&laquo;</span>
@@ -193,13 +199,13 @@ title %} Catalog {% endblock %} {% block css %}
           <li
             class="page-item {% if page == page_obj.number %}active{% endif %}"
           >
-            <a class="page-link" href="?page={{ page }}">{{page}}</a>
+            <a class="page-link" href="?{{q}}page={{ page }}">{{page}}</a>
           </li>
           {% endfor %} {% if page_obj.has_next %}
           <li class="page-item">
             <a
               class="page-link"
-              href="?page={{ page_obj.next_page_number }}"
+              href="?{{q}}page={{ page_obj.next_page_number }}"
               aria-label="Next"
             >
               <span aria-hidden="true">&raquo;</span>

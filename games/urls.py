@@ -1,6 +1,6 @@
 from django.urls import path
 
-from .views import GamesListView, GameDetailView, rating, create_comment
+from .views import GamesListView, GameDetailView, rating, create_comment, SearchView
 
 app_name = "games"
 
@@ -12,4 +12,5 @@ urlpatterns = [
     path("genre/<slug:slug_genre>", GamesListView.as_view(), name="genre"),
     path("developers/<slug:slug_developer>", GamesListView.as_view(), name="developer"),
     path("rating/<int:game_id>", rating, name="rating"),
+    path("search/", SearchView.as_view(), name="search"),
 ]

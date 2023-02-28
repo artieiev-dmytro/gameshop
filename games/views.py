@@ -105,3 +105,13 @@ def create_comment(request, game_id):
             comment.game = Game.objects.get(id=game_id)
             comment.save()
     return redirect(request.META.get("HTTP_REFERER"))
+
+
+class SearchView(GamesListView):
+    def get_queryset(self):
+        return Game.objects.filter(name__icontains=self.request.GET.get("q"))
+
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
+        context["q"] = f"q={self.request.GET.get('q')}&"
+        return context
