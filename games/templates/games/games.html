@@ -1,5 +1,5 @@
 {% extends 'games/base.html' %} {% load static %} {% load cache %} 
-{% block title %} Catalog {% endblock %} {% block css %}
+{% block title %} {{title}} {% endblock %} {% block css %}
 <link href="{% static 'vendor/css/products.css' %}" rel="stylesheet" />
 {% endblock %} {% block content %}
 
@@ -178,7 +178,7 @@
         {% endfor %}
       </div>
       >
-
+      {% if page_obj.has_other_pages %}
       <nav aria-label="Page navigation example">
         <ul class="pagination justify-content-center">
           {% if page_obj.has_previous %}
@@ -218,6 +218,7 @@
           {% endif %}
         </ul>
       </nav>
+      {% endif %}
     </div>
   </div>
 </div>

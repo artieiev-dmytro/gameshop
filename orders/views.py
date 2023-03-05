@@ -8,6 +8,7 @@ from django.views.generic.base import TemplateView, View
 from django.views.generic.edit import CreateView
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib import messages
 from django.conf import settings
 from django.views.decorators.csrf import csrf_exempt
@@ -46,10 +47,11 @@ class OrderListView(ListView):
         return queryset.filter(initiator=self.request.user)
 
 
-class CreateOrderView(CreateView):
+class CreateOrderView(LoginRequiredMixin, CreateView):
     template_name = "orders/create_order.html"
     form_class = OrderForm
     success_url = reverse_lazy("orders:create_order")
+    login_url = reverse_lazy("users:login")
 
     def post(self, request, *args, **kwargs):
         super().post(request, *args, **kwargs)

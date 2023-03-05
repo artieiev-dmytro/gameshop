@@ -1,5 +1,5 @@
-{% extends 'users/base.html' %} {% load static %} {% block title %}Register{%
-endblock %} {% block content %}
+{% extends 'users/base.html' %} {% load static %} {% block title %}Register
+{%endblock %} {% block content %}
 <main>
   <div class="container">
     <div class="row justify-content-center">
@@ -87,6 +87,17 @@ endblock %} {% block content %}
                       >Confirm the password</label
                     >
                     {{ form.password2 }}
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label
+                      class="small mb-1"
+                      for="{{ form.captcha.id_for_label }}"
+                      >Captcha</label
+                    >
+                    <br>
+                    {{ form.captcha }}
                   </div>
                 </div>
               </div>

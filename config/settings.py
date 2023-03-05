@@ -27,6 +27,8 @@ INSTALLED_APPS = [
     "allauth.socialaccount",
     "allauth.socialaccount.providers.github",
     "debug_toolbar",
+    "captcha",
+    "common",
     "games",
     "users",
     "orders",
@@ -170,3 +172,7 @@ STRIPE_WEBHOOK_SECRET = (
     "whsec_2bd0ccdc9bb436b80a0197a6f9cff9ab8d53f8a5aaa28d0ace7b474e824858e7"
 )
 APPEND_SLASH = False
+
+# Captcha
+
+CAPTCHA_CHALLENGE_FUNCT = "captcha.helpers.math_challenge"

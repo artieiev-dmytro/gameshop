@@ -7,6 +7,7 @@ from django.shortcuts import redirect
 
 from .models import Developer, Game, Genre, Rating, Comment
 from .forms import CommentForm
+from common.mixins import TitleMixin
 
 
 class IndexView(TemplateView):
@@ -18,11 +19,12 @@ class IndexView(TemplateView):
         return context
 
 
-class GameDetailView(DetailView):
+class GameDetailView(TitleMixin, DetailView):
     template_name = "games/game_detail.html"
     model = Game
 
     def get_context_data(self, **kwargs):
+        self.title = self.object.name
         context = super().get_context_data(**kwargs)
         context["form"] = CommentForm()
         context["rating"] = self.get_rating()
@@ -55,19 +57,22 @@ class GameDetailView(DetailView):
         return res
 
 
-class GamesListView(ListView):
+class GamesListView(TitleMixin, ListView):
     model = Game
     template_name = "games/games.html"
     paginate_by = 1
+    title = "Catalog"
 
     def get_queryset(self):
         queryset = super().get_queryset()
-        genre_id = self.kwargs.get("slug_genre")
-        developer_id = self.kwargs.get("slug_developer")
-        if genre_id:
-            return [game for game in queryset.all() if game.genre.filter(slug=genre_id)]
-        elif developer_id:
-            return queryset.filter(slug=developer_id)
+        genre_slug = self.kwargs.get("slug_genre")
+        developer_slug = self.kwargs.get("slug_developer")
+        if genre_slug:
+            return [
+                game for game in queryset.all() if game.genre.filter(slug=genre_slug)
+            ]
+        elif developer_slug:
+            return queryset.filter(developer__slug=developer_slug)
         return queryset
 
     def get_context_data(self, **kwargs):

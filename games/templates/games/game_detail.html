@@ -1,5 +1,5 @@
 {% extends 'games/base.html' %} {% load static %} 
-{% block title %} Catalog {% endblock %} 
+{% block title %} {{title}} {% endblock %} 
 {% block css %}
 <link href="{% static 'vendor/css/game.css' %}" rel="stylesheet" />
 <link
@@ -100,8 +100,10 @@
             <button type="button" class="btn btn-outline-success">Bay</button>
           </a>
         </div>
+        {% if user.is_authenticated %}
         <br />
         {% include 'games/comments.html' with game_id=object.id %}
+        {% endif %}
         <hr />
         <br />
         {% for comment in comments %}

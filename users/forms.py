@@ -4,6 +4,7 @@ from django.contrib.auth.forms import (
     UserChangeForm,
     UserCreationForm,
 )
+from captcha.fields import CaptchaField
 from .tasks import send_email_verification
 from .models import User
 
@@ -45,6 +46,7 @@ class UserRegisterForm(UserCreationForm):
     password2 = forms.CharField(
         widget=forms.PasswordInput(attrs={"placeholder": "Confirm the password"})
     )
+    captcha = CaptchaField()
 
     class Meta:
         model = User
