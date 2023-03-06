@@ -4,15 +4,16 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = "django-insecure-f@x8p&h*xj3q+p=67+=ssx5un*2b3xatb!h!1-780teeizfp%"
 
-DEBUG = True
-
 ALLOWED_HOSTS = []
+
+DOMAIN_NAME = "http://127.0.0.1:8000"
+
+# Debug
+DEBUG = True
 
 INTERNAL_IPS = [
     "127.0.0.1",
 ]
-
-DOMAIN_NAME = "http://127.0.0.1:8000"
 
 INSTALLED_APPS = [
     "django.contrib.admin",
@@ -67,7 +68,6 @@ TEMPLATES = [
 WSGI_APPLICATION = "config.wsgi.application"
 
 # Caches
-
 CACHES = {
     "default": {
         "BACKEND": "django.core.cache.backends.redis.RedisCache",
@@ -75,8 +75,7 @@ CACHES = {
     }
 }
 
-# Database
-
+# DataBase
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql_psycopg2",
@@ -113,14 +112,14 @@ USE_L10N = True
 
 USE_TZ = True
 
+# Static
 STATIC_URL = "static/"
-
 STATICFILES_DIRS = [
     BASE_DIR / "static",
 ]
 
+# Media
 MEDIA_URL = "/media/"
-
 MEDIA_ROOT = BASE_DIR / "media"
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
@@ -129,11 +128,10 @@ AUTH_USER_MODEL = "users.User"
 
 CART_SESSION_ID = "cart"
 
-
 LOGIN_REDIRECT_URL = "games:games"
 LOGOUT_REDIRECT_URL = "games:games"
 
-# Gmail
+# Email
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 EMAIL_HOST = "smtp.gmail.com"
 EMAIL_HOST_USER = "gameshopdjango@gmail.com"
@@ -142,6 +140,7 @@ EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_USE_SSL = False
 
+# OAuth
 AUTHENTICATION_BACKENDS = [
     "django.contrib.auth.backends.ModelBackend",
     "allauth.account.auth_backends.AuthenticationBackend",
@@ -160,19 +159,14 @@ SOCIALACCOUNT_PROVIDERS = {
 }
 
 # Celery
-
 CELERY_BROKER_URL = "redis://127.0.0.1:6379"
 CELERY_RESULT_BACKEND = "redis://127.0.0.1:6379"
 
 # Stripe
-
 STRIPE_PUBLIC_KEY = "pk_test_51Mdi3BEnMwlpFVdZ1ripm1Ewyrgte0tnIF8n9KszKK9OfnWEdD6FIERV7wlp7eOEjYuBuZVdQQ8qPARMYbeMUBiN004l53PKIF"
 STRIPE_SECRET_KEY = "sk_test_51Mdi3BEnMwlpFVdZxIHqTNaovSYJWhLvSaLzKHW2FmufLbtouIsWc3gvJ9Pi7WcpLdcV2IMx9aMVZKuMMmJ1JAPl00BC8fS82N"
-STRIPE_WEBHOOK_SECRET = (
-    "whsec_2bd0ccdc9bb436b80a0197a6f9cff9ab8d53f8a5aaa28d0ace7b474e824858e7"
-)
+STRIPE_WEBHOOK_SECRET = "whsec_2bd0ccdc9bb436b80a0197a6f9cff9ab8d53f8a5aaa28d0ace7b474e824858e7"
 APPEND_SLASH = False
 
 # Captcha
-
 CAPTCHA_CHALLENGE_FUNCT = "captcha.helpers.math_challenge"
