@@ -16,6 +16,7 @@ urlpatterns = [
     path("accounts/", include("allauth.urls")),
     path("webhook/stripe/", CreateOrderView.stripe_webhook_view(), name="stripe"),
     path("captcha/", include("captcha.urls")),
+    path("api/", include("api.urls")),
 ]
 
 if settings.DEBUG:
